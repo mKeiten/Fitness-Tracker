@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Container from '../components/container/Container';
 import {ExerciseRecord} from "../entities/ExerciseRecord";
+import ReadContentBox from "../components/contentBox/ReadContentBox";
 
 export function App() {
   const [records, setRecords] = React.useState<ExerciseRecord[]>([])
@@ -38,6 +39,11 @@ export function App() {
           {
             <div>
               <h2>Read</h2>
+              {
+                records.map(record => <ReadContentBox
+                  key={`${record.id}`}
+                  content={record}/>)
+              }
             </div>
           }
         </Container>
