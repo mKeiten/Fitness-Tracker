@@ -1,10 +1,14 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgres://localhost:5434/backenddb
+    url: jdbc:postgresql://localhost:5434/backenddb
     username: backend
     password: backend
+  sql:
+    init:
+      mode: always
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create-drop
+    defer-datasource-initialization: true
