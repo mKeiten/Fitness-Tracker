@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="214fcc89-42ee-4d8d-8dbf-fabc2aae3d61" name="Changes" comment="Add: Database Connection, Testenteties, Mapping">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="214fcc89-42ee-4d8d-8dbf-fabc2aae3d61" name="Changes" comment="Add: Testdata&#10;Bug: JSON Values are empty">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/apps/frontend/src/components/contentBox/CreateContentBox.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/fitnesstracker/backend/entities/ExerciseRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/fitnesstracker/backend/entities/ExerciseRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/fitnesstracker/backend/controllers/RecordsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/fitnesstracker/backend/controllers/RecordsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/fitnesstracker/backend/mappers/ExerciseRecordMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/fitnesstracker/backend/mappers/ExerciseRecordMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/fitnesstracker/backend/services/RecordsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/fitnesstracker/backend/services/RecordsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/apps/frontend/src/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/apps/frontend/src/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/apps/frontend/src/components/contentBox/ContentBox.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/apps/frontend/src/components/contentBox/ContentBox.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="main" />
+        <entry key="$PROJECT_DIR$/.." value="5-feature-setup-database" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -83,6 +84,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -90,7 +92,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.BackendApplication.executor": "Run",
-    "git-widget-placeholder": "5-feature-setup-database",
+    "git-widget-placeholder": "6-feature-crud-endpoints",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/blood/Desktop/Arbeit/Projekte/Fitness_Tracker/FitnessTracker/backend",
     "node.js.detected.package.eslint": "true",
@@ -132,7 +134,7 @@
       <option name="presentableId" value="Default" />
       <updated>1756532224875</updated>
       <workItem from="1756532225905" duration="2653000" />
-      <workItem from="1756535752111" duration="10272000" />
+      <workItem from="1756535752111" duration="18291000" />
     </task>
     <task id="LOCAL-00001" summary="Add: Read ContentBox to display data from the backend in the browser">
       <option name="closed" value="true" />
@@ -150,7 +152,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756539289352</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Add: Testdata&#10;Bug: JSON Values are empty">
+      <option name="closed" value="true" />
+      <created>1756546273637</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1756546273637</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -159,7 +169,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add: Read ContentBox to display data from the backend in the browser" />
     <MESSAGE value="Add: Database Connection, Testenteties, Mapping" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add: Database Connection, Testenteties, Mapping" />
+    <MESSAGE value="Add: Testdata&#10;Bug: JSON Values are empty" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add: Testdata&#10;Bug: JSON Values are empty" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

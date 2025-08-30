@@ -9,7 +9,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ExerciseRecordMapper {
 
-    ExerciseRecordDto toExerciseRecord(ExerciseRecord exerciseRecord);
     ExerciseRecord toExerciseRecordDto(ExerciseRecordDto dto);
-    List<ExerciseRecordDto> toExerciseRecordDtos(List<ExerciseRecord> exerciseRecord);
+
+    ExerciseRecordDto toExerciseRecord(ExerciseRecord exerciseRecord);
+
+    List<ExerciseRecordDto> toExerciseRecordDtos(List<ExerciseRecord> exerciseRecords);
 }

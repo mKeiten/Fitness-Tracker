@@ -1,0 +1,46 @@
+import React from 'react'
+import './ContentBox.css'
+
+interface ContentBoxProps {
+  onSubmit: (exercise: string, weight: number, repeats: number) => void;
+}
+
+const CreateContentBox: React.FC<ContentBoxProps> = ({onSubmit}) => {
+  const [exercise, setExercise] = React.useState("");
+  const [weight, setWeight] = React.useState<number>(0);
+  const [repeats, setRepeats] = React.useState<number>(0);
+
+  const handleSubmit = () => {
+    onSubmit(exercise, weight || 0, repeats || 0);
+    setExercise("");
+    setWeight(0);
+    setRepeats(0);
+  };
+
+  return (
+    <div className="contentBox">
+      <input
+        type="text"
+        value={exercise}
+        onChange={(e) => setExercise(e.target.value)}
+        placeholder="Exercise Name"
+      />
+      <input
+        type="number"
+        value={weight}
+        onChange={(e) => setWeight(parseInt(e.target.value))}
+        placeholder="Weight in Kg"
+      />
+      <input
+        type="number"
+        value={repeats}
+        onChange={(e) => setRepeats(parseInt(e.target.value))}
+        placeholder="Number of Repeats"
+      />
+      <button onClick={handleSubmit}>Create</button>
+
+    </div>
+  );
+}
+
+export default CreateContentBox;
