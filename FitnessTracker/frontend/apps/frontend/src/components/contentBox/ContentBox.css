@@ -4,4 +4,28 @@
   margin-bottom: 30px;
   padding: 5px;
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.contentBox > input {
+  width: 200px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.contentBox > button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100px;
+}
+
+.contentBox > button:hover {
+  background-color: #0056b3;
 }

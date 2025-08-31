@@ -4,9 +4,9 @@ import com.fitnesstracker.backend.dtos.ExerciseRecordDto;
 import com.fitnesstracker.backend.services.RecordsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -19,4 +19,21 @@ public class RecordsController {
     public ResponseEntity<List<ExerciseRecordDto>> allRecords() {
         return ResponseEntity.ok(recordsService.allRecords());
     }
+
+    @PostMapping("/exercises/records")
+    public ResponseEntity<ExerciseRecordDto> createRecord(@RequestBody final ExerciseRecordDto exerciseRecordDto) {
+        ExerciseRecordDto createdExerciseRecord = recordsService.createExerciseRecord(exerciseRecordDto);
+        return ResponseEntity.created(URI.create("/exercises/records/" + createdExerciseRecord.getId())).body(createdExerciseRecord);
+    }
+
+    @DeleteMapping("/exercises/records/{id}")
+    public ResponseEntity<ExerciseRecordDto> deleteExerciseRecord(@PathVariable Long id) {
+        return ResponseEntity.ok(recordsService.deleteExerciseRecord(id));
+    }
+
+    @PutMapping("/exercises/records/{id}")
+    public ResponseEntity<ExerciseRecordDto> updateExerciseRecord(@PathVariable Long id, @RequestBody final ExerciseRecordDto exerciseRecordDto) {
+        return ResponseEntity.ok(recordsService.updateExerciseRecord(id, exerciseRecordDto));
+    }
+
 }
