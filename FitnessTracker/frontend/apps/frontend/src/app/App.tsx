@@ -4,6 +4,7 @@ import Container from '../components/container/Container';
 import {ExerciseRecord} from "../entities/ExerciseRecord";
 import ReadContentBox from "../components/contentBox/ReadContentBox";
 import CreateContentBox from "../components/contentBox/CreateContentBox";
+import DeleteContentBox from "../components/contentBox/DeleteContentBox";
 
 export function App() {
   const [records, setRecords] = React.useState<ExerciseRecord[]>([])
@@ -37,6 +38,21 @@ export function App() {
         setRecords([...records, data]);
       }
     })
+  }
+
+  const handleDeleteSubmit = (id: number) => {
+    fetch(`http://localhost:8080/exercises/records/${id}`, {
+      method: "DELETE"
+    }).then(response => {
+      if (response.status == 200) {
+        return response.json()
+      }
+      return null;
+    }).then(data => {
+      if(data !== null) {
+        setRecords(records.filter(record => record.id !== data.id));
+      }
+    });
   }
 
   return (
@@ -82,6 +98,13 @@ export function App() {
           {
             <div>
               <h2>Delete</h2>
+              {
+                records.map(record => <DeleteContentBox
+                  key={`${record.id}`}
+                  onSubmit={handleDeleteSubmit}
+                  content={record}
+                />)
+              }
             </div>
           }
         </Container>

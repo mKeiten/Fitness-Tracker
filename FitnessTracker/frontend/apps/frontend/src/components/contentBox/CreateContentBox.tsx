@@ -22,19 +22,19 @@ const CreateContentBox: React.FC<ContentBoxProps> = ({onSubmit}) => {
       <input
         type="text"
         value={exercise}
-        onChange={(e) => setExercise(e.target.value)}
+        onChange={e => setExercise(e.target.value)}
         placeholder="Exercise Name"
       />
       <input
         type="number"
         value={weight}
-        onChange={(e) => setWeight(parseInt(e.target.value))}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWeight(parseInt(e.target.value))}
         placeholder="Weight in Kg"
       />
       <input
         type="number"
         value={repeats}
-        onChange={(e) => setRepeats(parseInt(e.target.value))}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRepeats(parseInt(e.target.value))}
         placeholder="Number of Repeats"
       />
       <button onClick={handleSubmit}>Create</button>
