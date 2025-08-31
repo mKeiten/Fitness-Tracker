@@ -37,4 +37,13 @@ public class RecordsService {
         return exerciseRecordDto;
     }
 
+    public ExerciseRecordDto updateExerciseRecord(Long id, ExerciseRecordDto exerciseRecordDto) {
+        ExerciseRecord exerciseRecord = exerciseRecordsRepository.findById(id)
+                .orElseThrow(() -> new AppException("Exercise Record not found", HttpStatus.NOT_FOUND));
+        exerciseRecordMapper.updateExerciseRecord(exerciseRecord, exerciseRecordDto);
+        ExerciseRecord savedExerciseRecord = exerciseRecordsRepository.save(exerciseRecord);
+
+        return exerciseRecordMapper.toExerciseRecord(savedExerciseRecord);
+    }
+
 }

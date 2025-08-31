@@ -30,4 +30,10 @@ public class RecordsController {
     public ResponseEntity<ExerciseRecordDto> deleteExerciseRecord(@PathVariable Long id) {
         return ResponseEntity.ok(recordsService.deleteExerciseRecord(id));
     }
+
+    @PutMapping("/exercises/records/{id}")
+    public ResponseEntity<ExerciseRecordDto> updateExerciseRecord(@PathVariable Long id, @RequestBody final ExerciseRecordDto exerciseRecordDto) {
+        return ResponseEntity.ok(recordsService.updateExerciseRecord(id, exerciseRecordDto));
+    }
+
 }
