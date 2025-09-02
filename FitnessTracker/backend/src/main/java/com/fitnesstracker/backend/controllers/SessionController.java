@@ -1,8 +1,6 @@
 package com.fitnesstracker.backend.controllers;
 
-import com.fitnesstracker.backend.dtos.ExerciseRecordDto;
 import com.fitnesstracker.backend.dtos.SessionDto;
-import com.fitnesstracker.backend.entities.ExerciseRecord;
 import com.fitnesstracker.backend.services.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

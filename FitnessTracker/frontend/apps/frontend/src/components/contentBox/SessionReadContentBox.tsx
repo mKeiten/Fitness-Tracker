@@ -1,5 +1,4 @@
 import React from 'react'
-import {ExerciseRecord} from "../../entities/ExerciseRecord";
 import {Session} from "../../entities/Session"
 import './ContentBox.css'
 

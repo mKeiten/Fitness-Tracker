@@ -1,8 +1,6 @@
 package com.fitnesstracker.backend.services;
 
-import com.fitnesstracker.backend.dtos.ExerciseRecordDto;
 import com.fitnesstracker.backend.dtos.SessionDto;
-import com.fitnesstracker.backend.entities.ExerciseRecord;
 import com.fitnesstracker.backend.entities.Session;
 import com.fitnesstracker.backend.exceptions.AppException;
 import com.fitnesstracker.backend.mappers.SessionMapper;
@@ -22,8 +20,6 @@ public class SessionService {
 
     private final SessionRepository sessionRepository;
     private final SessionMapper sessionMapper;
-    private final RecordsController recordsController;
-    private final ExerciseRecordsRepository recordsRepository;
 
     public List<SessionDto> allSessions() {
         return sessionMapper.toSessionDtos(sessionRepository.findAll());

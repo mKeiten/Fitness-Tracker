@@ -1,5 +1,3 @@
-import {Session} from "./Session";
-
 export interface ExerciseRecord {
   id: number;
   exercise: string;

@@ -1,6 +1,5 @@
 package com.fitnesstracker.backend.dtos;
 
-import com.fitnesstracker.backend.entities.Session;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
