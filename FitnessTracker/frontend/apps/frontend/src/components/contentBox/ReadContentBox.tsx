@@ -14,6 +14,7 @@ const ReadContentBox: React.FC<ContentBoxProps> = ({content}) => {
       <p>Exercise: {record.exercise}</p>
       <p>Weight: {record.weight}</p>
       <p>Repeats: {record.repeats}</p>
+      <p>Sets: {record.sets}</p>
     </div>
   );
 }

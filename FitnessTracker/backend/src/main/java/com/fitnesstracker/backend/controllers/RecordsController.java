@@ -26,9 +26,9 @@ public class RecordsController {
         return ResponseEntity.created(URI.create("/exercises/records/" + createdExerciseRecord.getId())).body(createdExerciseRecord);
     }
 
-    @DeleteMapping("/exercises/records/{id}")
-    public ResponseEntity<ExerciseRecordDto> deleteExerciseRecord(@PathVariable Long id) {
-        return ResponseEntity.ok(recordsService.deleteExerciseRecord(id));
+    @DeleteMapping("/{sessionId}/exercises/records/{exerciseId}")
+    public ResponseEntity<ExerciseRecordDto> deleteExerciseRecord(@PathVariable Long sessionId, @PathVariable Long exerciseId) {
+        return ResponseEntity.ok(recordsService.deleteExerciseRecord(sessionId, exerciseId));
     }
 
     @PutMapping("/exercises/records/{id}")

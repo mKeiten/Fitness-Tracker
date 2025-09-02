@@ -34,6 +34,12 @@ const UpdateContentBox: React.FC<ContentBoxProps> = ({onSubmit, content}) => {
         onChange={e => setRecord({...record, repeats: parseInt(e.target.value)})}
         placeholder="Number of Repeats"
       />
+      <input
+        type="number"
+        value={record.sets}
+        onChange={e => setRecord({...record, sets: parseInt(e.target.value)})}
+        placeholder="Number of Sets"
+      />
       <button onClick={handleSubmit}>Update</button>
 
     </div>

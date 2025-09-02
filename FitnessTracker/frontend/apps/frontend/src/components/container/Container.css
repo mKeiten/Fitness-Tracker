@@ -1,9 +1,11 @@
 .container {
   margin: 5px;
   min-height: 400px;
+  max-height: 800px;
   padding-bottom: 20px;
   box-shadow: rgba(0, 0, 0.24) 0 3px 8px;
   border-radius: 15px;
+  overflow: scroll;
 }
 
 .container h2 {

@@ -10,9 +10,10 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ExerciseRecordMapper {
-
+    @Mapping(target = "session", ignore = true)
     ExerciseRecord toExerciseRecordDto(ExerciseRecordDto dto);
 
+    @Mapping(target = "sessionId", source= "session.id")
     ExerciseRecordDto toExerciseRecord(ExerciseRecord exerciseRecord);
 
     List<ExerciseRecordDto> toExerciseRecordDtos(List<ExerciseRecord> exerciseRecords);

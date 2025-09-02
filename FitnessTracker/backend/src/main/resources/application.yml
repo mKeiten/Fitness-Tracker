@@ -6,9 +6,9 @@ spring:
     password: backend
   sql:
     init:
-      mode: always
+      mode: never
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create-drop
-    defer-datasource-initialization: true
+#    defer-datasource-initialization: true

@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+import java.util.Set;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @AllArgsConstructor
@@ -13,20 +16,13 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-public class ExerciseRecord {
+public class Session {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column
-    private String exercise;
-    @Column
-    private Integer weight;
-    @Column
-    private Integer repeats;
-    @Column
-    private Integer sets;
-    @ManyToOne
-    @JoinColumn
-    private Session session;
+    private Date date;
+    @OneToMany(mappedBy ="session", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ExerciseRecord> exercises;
 }
