@@ -19,6 +19,7 @@ const DeleteContentBox: React.FC<ContentBoxProps> = ({onSubmit, content}) => {
       <p>Exercise: {record.exercise}</p>
       <p>Weight: {record.weight}</p>
       <p>Repeats: {record.repeats}</p>
+      <p>Sets: {record.sets}</p>
       <button onClick={handleSubmit}>Delete</button>
 
     </div>

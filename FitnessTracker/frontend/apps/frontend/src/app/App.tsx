@@ -2,11 +2,11 @@ import React from 'react';
 import './App.css';
 import Container from '../components/container/Container';
 import {ExerciseRecord} from "../entities/ExerciseRecord";
-import ReadContentBox from "../components/contentBox/ReadContentBox";
-import CreateContentBox from "../components/contentBox/CreateContentBox";
-import DeleteContentBox from "../components/contentBox/DeleteContentBox";
+import {Session} from "../entities/Session"
 import UpdateContentBox from "../components/contentBox/UpdateContentBox";
-
+import SessionContentBox from "../components/contentBox/SessionContentBox";
+import SessionReadContentBox from "../components/contentBox/SessionReadContentBox";
+import SessionDeleteContentBox from "../components/contentBox/SessionDeleteContentBox";
 
 export function App() {
   const [records, setRecords] = React.useState<ExerciseRecord[]>([])
@@ -25,25 +25,50 @@ export function App() {
     })
   }, [])
 
-  const handleCreateSubmit = (exercise: string, weight: number, repeats: number) => {
-    fetch("http://localhost:8080/exercises/records", {
-      method: "POST",
-      headers: {"content-type": "application/json"},
-      body: JSON.stringify({exercise: exercise, weight: weight, repeats: repeats})
+  const [sessions, setSessions] = React.useState<Session[]>([])
+  React.useEffect(() => {
+    fetch("http://localhost:8080/exercises/sessions", {
+      method: "GET"
     }).then(response => {
-      if (response.status == 201) {
-        return response.json()
+      if(response.status == 200) {
+        return response.json();
       }
       return null;
     }).then(data => {
-      if (data !== null) {
-        setRecords([...records, data]);
+      if(data !== null) {
+        setSessions(data);
       }
     })
+  }, [])
+
+  const removeSessionFromState = (sessionId: number) => {
+    setSessions(prevSessions => prevSessions.filter(s => s.id !== sessionId));
+  };
+
+  const handleDeleteSubmit = async (sessionId: number, exerciseId: number) => {
+    try {
+      const response = await fetch(`http://localhost:8080/${sessionId}/exercises/records/${exerciseId}`, {
+        method: "DELETE"
+      });
+      const data = await response.json();
+      const session = sessions.find(s => s.id === data.sessionId)
+      if (session && session.exercises.length <= 1) {
+        removeSessionFromState(sessionId);
+      }
+      setSessions(prevSessions =>
+        prevSessions.map(s =>
+          s.id === sessionId
+            ? { ...s, exercises: s.exercises.filter(e => e.id !== data.id) }
+            : s
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  const handleDeleteSubmit = (id: number) => {
-    fetch(`http://localhost:8080/exercises/records/${id}`, {
+  const handleSessionDeleteSubmit = (id: number) => {
+    fetch(`http://localhost:8080/exercises/sessions/${id}`, {
       method: "DELETE"
     }).then(response => {
       if (response.status == 200) {
@@ -52,7 +77,7 @@ export function App() {
       return null;
     }).then(data => {
       if(data !== null) {
-        setRecords(records.filter(record => record.id !== data.id));
+        setSessions(sessions.filter(session => session.id !== data.id));
       }
     });
   }
@@ -61,7 +86,7 @@ export function App() {
     fetch(`http://localhost:8080/exercises/records/${recordToUpdate.id}`, {
       method: "PUT",
       headers: {"content-type": "application/json"},
-      body: JSON.stringify({exercise: recordToUpdate.exercise, weight: recordToUpdate.weight, repeats: recordToUpdate.repeats})
+      body: JSON.stringify({exercise: recordToUpdate.exercise, weight: recordToUpdate.weight, repeats: recordToUpdate.repeats, sets: recordToUpdate.sets})
     }).then(response => {
       if (response.status == 200) {
         return response.json()
@@ -70,11 +95,50 @@ export function App() {
     }).then(data => {
       if(data !== null) {
         setRecords(records.map(record => (record.id === data.id ?
-          {...record, exercise: data.exercise, weight: data.weight, repeats: data.repeats}
+          {...record, exercise: data.exercise, weight: data.weight, repeats: data.repeats, sets: data.sets}
           : record)));
       }
     });
   }
+
+  const handleCreateSessionSubmit = (session: Session) => {
+    fetch("http://localhost:8080/exercises/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        date: session.date.toISOString(),
+        exercises: session.exercises.map(ex => ({
+          exercise: ex.exercise,
+          weight: ex.weight,
+          repeats: ex.repeats,
+          sets: ex.sets,
+          sessionId: ex.sessionId
+        }))
+      })
+    })
+      .then(postResponse => {
+        if (postResponse.status !== 201) {
+          console.error("Fehler beim Anlegen der Session:", postResponse.status);
+          return Promise.reject("Post fehlgeschlagen");
+        }
+        return fetch("http://localhost:8080/exercises/sessions");
+      })
+      .then(getResponse => {
+        if (getResponse.status !== 200) {
+          console.error("Fehler beim Laden der Sessions:", getResponse.status);
+          return Promise.reject("Get fehlgeschlagen");
+        }
+        return getResponse.json();
+      })
+      .then((updatedSessions: Session[]) => {
+        setSessions(updatedSessions);
+      })
+      .catch(error => {
+        console.error("Fehler beim Speichern/Laden der Sessions:", error);
+      });
+  };
+
+
 
   return (
     <div className="main-component">
@@ -82,8 +146,9 @@ export function App() {
         <Container>
           {
             <div>
-              <h2>Create</h2>
-              <CreateContentBox onSubmit={handleCreateSubmit}/>
+              <h2>new workout</h2>
+              <SessionContentBox onSubmit={handleCreateSessionSubmit}/>
+              {/*<CreateContentBox onSubmit={handleCreateSubmit}/>*/}
             </div>
           }
         </Container>
@@ -95,9 +160,10 @@ export function App() {
             <div>
               <h2>Read</h2>
               {
-                records.map(record => <ReadContentBox
-                  key={`${record.id}-${record.exercise}-${record.weight}-${record.repeats}`}
-                  content={record}/>)
+                sessions.map(session => <SessionReadContentBox
+                  key={`${session.id}`}
+                  content={session}
+                />)
               }
             </div>
           }
@@ -111,7 +177,7 @@ export function App() {
               <h2>Update</h2>
               {
                 records.map(record => <UpdateContentBox
-                  key={`${record.id}-${record.exercise}-${record.weight}-${record.repeats}`}
+                  key={`${record.id}-${record.exercise}-${record.weight}-${record.repeats}-${record.sets}`}
                   onSubmit={handleUpdateSubmit}
                   content={record}
                 />)
@@ -128,10 +194,16 @@ export function App() {
             <div>
               <h2>Delete</h2>
               {
-                records.map(record => <DeleteContentBox
-                  key={`${record.id}-${record.exercise}-${record.weight}-${record.repeats}`}
-                  onSubmit={handleDeleteSubmit}
-                  content={record}
+                // records.map(record => <DeleteContentBox
+                //   key={`${record.id}-${record.exercise}-${record.weight}-${record.repeats}-${record.sets}`}
+                //   onSubmit={handleDeleteSubmit}
+                //   content={record}
+                // />)
+                sessions.map(session => <SessionDeleteContentBox
+                  key={`${session.id}`}
+                  onDeleteSession={handleSessionDeleteSubmit}
+                  onDeleteExercise={handleDeleteSubmit}
+                  content={session}
                 />)
               }
             </div>

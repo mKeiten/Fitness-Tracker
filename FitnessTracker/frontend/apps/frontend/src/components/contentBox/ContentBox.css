@@ -1,31 +1,77 @@
 .contentBox {
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-  margin: 5px;
-  margin-bottom: 30px;
+  margin: 30px 5px;
   padding: 5px;
   border-radius: 15px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
 }
 
-.contentBox > input {
+.contentRow > input {
   width: 200px;
   padding: 8px;
-  margin-bottom: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 15px;
 }
 
-.contentBox > button {
+.contentRow {
+  display: grid;
+  grid-template-columns: 15% 65% 20%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  width: 350px;
+}
+
+.contentRow > label {
+  display: flex;
+  align-self: center;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-weight: 700;
+}
+
+.buttons {
+  margin-top: 30px;
+  grid-template-columns: 20% 50% 30%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.addButton {
   padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
+  background-color: rgba(0,0,0,0.05);
+  color: black;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   cursor: pointer;
-  width: 100px;
+  width: 110px;
 }
 
-.contentBox > button:hover {
-  background-color: #0056b3;
+.deleteButton {
+  padding: 8px 16px;
+  background-color: rgba(0,0,0,0.05);
+  color: black;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  width: 140px;
 }
+
+.addButton:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.deleteButton:hover {
+  background-color: rgba(80,0,0,.5);
+}
+
+.headlineContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+#subHeadline {
+  margin-top: 40px;
+  align-self: center;
+  font-family: "Roboto", "Arial", sans-serif;
+}
+
