@@ -7,7 +7,7 @@
 }
 
 .contentRow > input {
-  width: 200px;
+  width: 175px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 15px;
@@ -15,7 +15,7 @@
 
 .contentRow {
   display: grid;
-  grid-template-columns: 15% 65% 20%;
+  grid-template-columns: 23% auto 18%;
   height: 30px;
   margin-bottom: 15px;
   margin-top: 10px;
@@ -57,11 +57,11 @@
 }
 
 .addButton:hover {
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(3, 255, 3, 0.19);
 }
 
 .deleteButton:hover {
-  background-color: rgba(80,0,0,.5);
+  background-color: rgba(245, 0, 0, 0.33);
 }
 
 .headlineContainer {

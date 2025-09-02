@@ -26,21 +26,16 @@ public class RecordsService {
     }
 
     public ExerciseRecordDto createExerciseRecord(ExerciseRecordDto exerciseRecordDto) {
-//        Session session = sessionRepository.findById(exerciseRecordDto.getSessionId()).orElseThrow(() -> new AppException("Session not found", HttpStatus.NOT_FOUND));
         ExerciseRecord exerciseRecord = exerciseRecordMapper.toExerciseRecordDto(exerciseRecordDto);
-//        exerciseRecord.setSession(session);
         ExerciseRecord createdExerciseRecord = exerciseRecordsRepository.save(exerciseRecord);
-
         return exerciseRecordMapper.toExerciseRecord(createdExerciseRecord);
     }
     @Transactional
     public ExerciseRecordDto deleteExerciseRecord(Long sessionId, Long exerciseRecordId) {
         Session session = sessionRepository.findById(sessionId).orElseThrow(() -> new RuntimeException("Session not found"));
-
         ExerciseRecord exerciseRecord = session.getExercises().stream().filter(e -> e.getId().equals(exerciseRecordId)).findFirst().orElseThrow(() -> new RuntimeException("Exercise not found"));
         ExerciseRecordDto exerciseRecordDto = exerciseRecordMapper.toExerciseRecord(exerciseRecord);
         session.getExercises().remove(exerciseRecord);
-
         if(session.getExercises().isEmpty()) {
             sessionRepository.delete(session);
         }
@@ -52,7 +47,6 @@ public class RecordsService {
                 .orElseThrow(() -> new AppException("Exercise Record not found", HttpStatus.NOT_FOUND));
         exerciseRecordMapper.updateExerciseRecord(exerciseRecord, exerciseRecordDto);
         ExerciseRecord savedExerciseRecord = exerciseRecordsRepository.save(exerciseRecord);
-
         return exerciseRecordMapper.toExerciseRecord(savedExerciseRecord);
     }
 

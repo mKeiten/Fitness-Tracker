@@ -26,7 +26,8 @@ const SessionContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const newSession: Session = {
       id: 0,
       date,
@@ -46,89 +47,93 @@ const SessionContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) => {
   };
 
   return (
+
     <div className="contentBox">
+      <form onSubmit={handleSubmit}>
+        <div className="contentRow">
+          <label htmlFor="date">Date:</label>
+          <input
+            id="date"
+            type="date"
+            value={date ? date.toISOString().substring(0, 10) : ""}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setDate(new Date(e.target.value))
+            }
+            required
+          />
+          <button onClick={handleExercise} id="add" className="addButton">
+            Add Exercise
+          </button>
+        </div>
 
-      <div className="contentRow">
-        <label htmlFor="date">Date:</label>
-        <input
-          id="date"
-          type="date"
-          value={date ? date.toISOString().substring(0, 10) : ""}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setDate(new Date(e.target.value))
-          }
-        />
-        <button onClick={handleExercise} id="add" className="addButton">
-          Add Exercise
-        </button>
-      </div>
+        <div className="inputFields">
 
-      <div className="inputFields">
+          {exercises.map((ex, i) => (
 
-        {exercises.map((ex, i) => (
+            <div key={i}>
+              <span className="headlineContainer"><h3 id="subHeadline">Exercise {i + 1}</h3></span>
 
-          <div key={i}>
-            <span className="headlineContainer"><h3 id="subHeadline">Exercise {i + 1}</h3></span>
+              <div className="contentRow">
+                <label htmlFor={`exercise-${i}`}>Exercise:</label>
+                <input
+                  id={`exercise-${i}`}
+                  type="text"
+                  onChange={e => handleChange(i, "exercise", e.target.value)}
+                  placeholder="Exercise Name"
+                  required
+                />
+              </div>
 
-            <div className="contentRow">
-              <label htmlFor={`exercise-${i}`}>Exercise:</label>
-              <input
-                id={`exercise-${i}`}
-                type="text"
-                value={ex.exercise}
-                onChange={e => handleChange(i, "exercise", e.target.value)}
-                placeholder="Exercise Name"
-              />
+              <div className="contentRow">
+                <label htmlFor={`weight-${i}`}>Weight:</label>
+                <input
+                  id={`weight-${i}`}
+                  type="number"
+                  onChange={e =>
+                    handleChange(i, "weight", parseInt(e.target.value))
+                  }
+                  placeholder="Weight in Kg"
+                  required
+                />
+              </div>
+
+              <div className="contentRow">
+                <label htmlFor={`repeats-${i}`}>Repeats:</label>
+                <input
+                  id={`repeats-${i}`}
+                  type="number"
+                  onChange={e =>
+                    handleChange(i, "repeats", parseInt(e.target.value))
+                  }
+                  placeholder="Number of Repeats"
+                  required
+                />
+              </div>
+
+              <div className="contentRow">
+                <label htmlFor={`sets-${i}`}>Sets:</label>
+                <input
+                  id={`sets-${i}`}
+                  type="number"
+                  onChange={e => {
+                    const value = e.target.value;
+                    handleChange(i, "sets", value === "" ? "" : Number(value));
+                  }}
+                  placeholder="Number of Sets"
+                  required
+                />
+              </div>
             </div>
+          ))}
+        </div>
 
-            <div className="contentRow">
-              <label htmlFor={`weight-${i}`}>Weight:</label>
-              <input
-                id={`weight-${i}`}
-                type="number"
-                value={ex.weight}
-                onChange={e =>
-                  handleChange(i, "weight", parseInt(e.target.value) || 0)
-                }
-                placeholder="Weight in Kg"
-              />
-            </div>
+        <div className="buttons">
 
-            <div className="contentRow">
-              <label htmlFor={`repeats-${i}`}>Repeats:</label>
-              <input
-                id={`repeats-${i}`}
-                type="number"
-                value={ex.repeats}
-                onChange={e =>
-                  handleChange(i, "repeats", parseInt(e.target.value) || 0)
-                }
-                placeholder="Number of Repeats"
-              />
-            </div>
-
-            <div className="contentRow">
-              <label htmlFor={`sets-${i}`}>Sets:</label>
-              <input
-                id={`sets-${i}`}
-                type="number"
-                value={ex.sets}
-                onChange={e =>
-                  handleChange(i, "sets", parseInt(e.target.value) || 0)
-                }
-                placeholder="Number of Sets"
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="buttons">
-
-        <button onClick={handleSubmit} id="create" className="addButton">
-          Save Session
-        </button>
-      </div>
+          <button type="submit" id="create" className="addButton">
+            Save Session
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

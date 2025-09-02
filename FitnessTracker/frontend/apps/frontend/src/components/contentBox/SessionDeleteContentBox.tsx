@@ -11,7 +11,7 @@ interface ContentBoxProps {
 }
 
 const DeleteContentBox: React.FC<ContentBoxProps> = ({onDeleteSession, onDeleteExercise, content}) => {
-  const [session, setSession] = React.useState<Session>(content);
+  const [session] = React.useState<Session>(content);
 
   const handleExerciseDelete = (exercise: ExerciseRecord) => {
     onDeleteExercise(session.id, exercise.id);
@@ -31,7 +31,7 @@ const DeleteContentBox: React.FC<ContentBoxProps> = ({onDeleteSession, onDeleteE
         {content.exercises.map((record) => (
           <div key={record.id} className="exerciseRecord">
             <p>Exercise: {record.exercise}</p>
-            <p>Weight: {record.weight}kg</p>
+            <p>Weight: {record.weight} kg</p>
             <p>Repeats: {record.repeats}</p>
             <p>Sets: {record.sets}</p>
             <button onClick={() => handleExerciseDelete(record)} className="deleteButton">Delete Exercise</button>

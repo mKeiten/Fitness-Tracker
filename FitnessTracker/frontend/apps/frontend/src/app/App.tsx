@@ -3,13 +3,13 @@ import './App.css';
 import Container from '../components/container/Container';
 import {ExerciseRecord} from "../entities/ExerciseRecord";
 import {Session} from "../entities/Session"
-import UpdateContentBox from "../components/contentBox/UpdateContentBox";
 import SessionContentBox from "../components/contentBox/SessionContentBox";
 import SessionReadContentBox from "../components/contentBox/SessionReadContentBox";
 import SessionDeleteContentBox from "../components/contentBox/SessionDeleteContentBox";
+import SessionUpdateContentBox from "../components/contentBox/SessionUpdateContentBox";
 
 export function App() {
-  const [records, setRecords] = React.useState<ExerciseRecord[]>([])
+  const [setRecords] = React.useState<ExerciseRecord[]>([])
   React.useEffect(() => {
     fetch("http://localhost:8080/exercises/records", {
       method: "GET"
@@ -82,21 +82,30 @@ export function App() {
     });
   }
 
-  const handleUpdateSubmit = (recordToUpdate: ExerciseRecord) => {
-    fetch(`http://localhost:8080/exercises/records/${recordToUpdate.id}`, {
+  const handleUpdateSessionSubmit = (session: Session) => {
+    fetch(`http://localhost:8080/exercises/sessions/${session.id}`, {
       method: "PUT",
       headers: {"content-type": "application/json"},
-      body: JSON.stringify({exercise: recordToUpdate.exercise, weight: recordToUpdate.weight, repeats: recordToUpdate.repeats, sets: recordToUpdate.sets})
+      body: JSON.stringify({
+        date: session.date.toISOString(),
+        exercises: session.exercises.map(ex => ({
+          exercise: ex.exercise,
+          weight: ex.weight,
+          repeats: ex.repeats,
+          sets: ex.sets,
+          sessionId: ex.sessionId
+        }))
+      })
     }).then(response => {
       if (response.status == 200) {
         return response.json()
       }
       return null;
     }).then(data => {
-      if(data !== null) {
-        setRecords(records.map(record => (record.id === data.id ?
-          {...record, exercise: data.exercise, weight: data.weight, repeats: data.repeats, sets: data.sets}
-          : record)));
+      if (data !== null) {
+        setSessions(sessions.map(session =>
+          session.id === data.id ? data : session
+        ));
       }
     });
   }
@@ -175,11 +184,18 @@ export function App() {
           {
             <div>
               <h2>Update</h2>
+              {/*{*/}
+              {/*  records.map(record => <UpdateContentBox*/}
+              {/*    key={`${record.id}-${record.exercise}-${record.weight}-${record.repeats}-${record.sets}`}*/}
+              {/*    onSubmit={handleUpdateSubmit}*/}
+              {/*    content={record}*/}
+              {/*  />)*/}
+              {/*}*/}
               {
-                records.map(record => <UpdateContentBox
-                  key={`${record.id}-${record.exercise}-${record.weight}-${record.repeats}-${record.sets}`}
-                  onSubmit={handleUpdateSubmit}
-                  content={record}
+                sessions.map(session => <SessionUpdateContentBox
+                  key={`${session.id}`}
+                  onSubmit={handleUpdateSessionSubmit}
+                  content={session}
                 />)
               }
 

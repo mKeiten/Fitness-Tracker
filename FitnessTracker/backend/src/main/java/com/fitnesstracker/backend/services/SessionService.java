@@ -4,9 +4,7 @@ import com.fitnesstracker.backend.dtos.SessionDto;
 import com.fitnesstracker.backend.entities.Session;
 import com.fitnesstracker.backend.exceptions.AppException;
 import com.fitnesstracker.backend.mappers.SessionMapper;
-import com.fitnesstracker.backend.repositories.ExerciseRecordsRepository;
 import com.fitnesstracker.backend.repositories.SessionRepository;
-import com.fitnesstracker.backend.controllers.RecordsController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -41,10 +39,11 @@ public class SessionService {
     }
 
     public SessionDto updateSession(Long id, SessionDto SessionDto) {
-        Session Session = sessionRepository.findById(id)
+
+        Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new AppException("Exercise Record not found", HttpStatus.NOT_FOUND));
-        sessionMapper.updateSession(Session, SessionDto);
-        Session savedSession = sessionRepository.save(Session);
+        sessionMapper.updateSession(session, SessionDto);
+        Session savedSession = sessionRepository.save(session);
 
         return sessionMapper.toSession(savedSession);
     }
