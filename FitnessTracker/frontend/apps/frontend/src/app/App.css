@@ -1,9 +1,94 @@
 .main-component {
-  display: table;
+  overflow: scroll;
+  display: grid;
   width: 100%;
+  grid-template-columns: 10% 75% 15%;
+  grid-template-rows: auto 80%;
+  grid-template-areas:
+  "sidebar main assist"
+  "sidebar graph assist2";
 }
 
-.main-component > div {
-  display: table-cell;
-  width: 25%;
+.read {
+  grid-area: sidebar;
+}
+
+.create {
+  grid-area: main;
+}
+
+.update {
+  grid-area: assist;
+}
+
+.delete {
+  grid-area: assist2;
+}
+
+.plots {
+  grid-area: graph;
+}
+
+.more {
+  padding-top: 20px;
+}
+
+::marker {
+  font-weight: lighter;
+  font-size: 30px;
+  transition: 0.15s background linear;
+  color: rgba(0,0,0,0.30);
+}
+
+summary {
+   font-family: "Roboto", "Arial", sans-serif;
+   cursor: pointer;
+   text-align: center;
+ }
+
+
+
+details[open] div {
+  animation: animateDown 0.25s linear forwards;
+}
+
+@keyframes animateDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.exercise-details[open] > details {
+  animation: animateLeft 0.25s linear forwards;
+}
+
+@keyframes animateLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(50px);
+  }
+}
+
+.plot-details[open] .plot {
+  animation: animateUp 0.5s linear forwards;
+}
+
+@keyframes animateUp {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px) translateY(80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50px) translateY(0);
+  }
 }

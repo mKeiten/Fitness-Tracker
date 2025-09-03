@@ -23,6 +23,20 @@ const UpdateContentBox: React.FC<ContentBoxProps> = ({onSubmit, content}) => {
   return (
     <div className="contentBox">
       <form onSubmit={handleUpdateSubmit}>
+        <div className="contentRow">
+          <label htmlFor="session-date"><strong>Date:</strong></label>
+          <input
+            id="session-date"
+            type="date"
+            value={session.date.toISOString().substring(0,10)}
+            onChange={e => setSession({
+              ...session,
+              date: new Date(e.target.value)
+            })}
+            max={new Date().toISOString().substring(0,10)}
+            required
+          />
+        </div>
         {session.exercises.map((ex, i) => (
           <div key={i} className="inputFields">
 
@@ -46,7 +60,10 @@ const UpdateContentBox: React.FC<ContentBoxProps> = ({onSubmit, content}) => {
                 value={ex.weight ?? ""}
                 onChange={e => {
                   const updatedExercises = [...session.exercises];
-                  updatedExercises[i] = {...updatedExercises[i], weight: e.target.value === "" ? undefined : Number(e.target.value)};
+                  updatedExercises[i] = {
+                    ...updatedExercises[i],
+                    weight: e.target.value === "" ? undefined : Number(e.target.value)
+                  };
                   setSession({...session, exercises: updatedExercises});
                 }}
                 placeholder="Weight in Kg"
@@ -60,7 +77,10 @@ const UpdateContentBox: React.FC<ContentBoxProps> = ({onSubmit, content}) => {
                 value={ex.repeats ?? ""}
                 onChange={e => {
                   const updatedExercises = [...session.exercises];
-                  updatedExercises[i] = {...updatedExercises[i], repeats: e.target.value === "" ? undefined : Number(e.target.value)};
+                  updatedExercises[i] = {
+                    ...updatedExercises[i],
+                    repeats: e.target.value === "" ? undefined : Number(e.target.value)
+                  };
                   setSession({...session, exercises: updatedExercises});
                 }}
                 placeholder="Number of Repeats"
@@ -74,7 +94,10 @@ const UpdateContentBox: React.FC<ContentBoxProps> = ({onSubmit, content}) => {
                 value={ex.sets ?? ""}
                 onChange={e => {
                   const updatedExercises = [...session.exercises];
-                  updatedExercises[i] = {...updatedExercises[i], sets: e.target.value === "" ? undefined : Number(e.target.value)};
+                  updatedExercises[i] = {
+                    ...updatedExercises[i],
+                    sets: e.target.value === "" ? undefined : Number(e.target.value)
+                  };
                   setSession({...session, exercises: updatedExercises});
                 }}
                 placeholder="Number of Sets"
@@ -83,11 +106,12 @@ const UpdateContentBox: React.FC<ContentBoxProps> = ({onSubmit, content}) => {
             </div>
           </div>
         ))}
-
-        <button type="submit" className="addButton">Update</button>
+        <div className="buttons">
+          <button type="submit" className="addButton">Update</button>
+        </div>
       </form>
     </div>
-);
+  );
 }
 
 export default UpdateContentBox;

@@ -1,6 +1,6 @@
 .contentBox {
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-  margin: 30px 5px;
+  margin: 10px 5px;
   padding: 5px;
   border-radius: 15px;
   display: grid;
@@ -14,12 +14,12 @@
 }
 
 .contentRow {
-  display: grid;
-  grid-template-columns: 23% auto 18%;
-  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   margin-bottom: 15px;
   margin-top: 10px;
-  width: 350px;
 }
 
 .contentRow > label {
@@ -29,9 +29,16 @@
   font-weight: 700;
 }
 
+.inputFields {
+  margin-bottom: 35px;
+}
+
+.exerciseRecords {
+  margin-bottom: 30px;
+}
+
 .buttons {
   margin-top: 30px;
-  grid-template-columns: 20% 50% 30%;
   display: flex;
   justify-content: space-around;
 }

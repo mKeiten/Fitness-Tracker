@@ -55,6 +55,7 @@ const SessionContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) => {
           <input
             id="date"
             type="date"
+            max={new Date().toISOString().substring(0,10)}
             value={date ? date.toISOString().substring(0, 10) : ""}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setDate(new Date(e.target.value))

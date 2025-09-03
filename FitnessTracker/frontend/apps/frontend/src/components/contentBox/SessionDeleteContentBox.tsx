@@ -24,7 +24,7 @@ const DeleteContentBox: React.FC<ContentBoxProps> = ({onDeleteSession, onDeleteE
   return (
     <div className="contentBox">
       <div className="contentRow">
-        <strong>Date:</strong> {sessionDate.toLocaleDateString()}
+        <strong>Date:</strong> <span>{sessionDate.toLocaleDateString()}</span>
         <button onClick={handleSessionDelete} className="deleteButton">Delete Session</button>
       </div>
 
