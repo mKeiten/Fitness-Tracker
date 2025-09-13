@@ -7,9 +7,18 @@ import SessionContentBox from "../components/contentBox/SessionContentBox";
 import SessionReadContentBox from "../components/contentBox/SessionReadContentBox";
 import SessionDeleteContentBox from "../components/contentBox/SessionDeleteContentBox";
 import SessionUpdateContentBox from "../components/contentBox/SessionUpdateContentBox";
+import Plots from "../components/graphs/ExercisePlot";
 
 export function App() {
-  const [setRecords] = React.useState<ExerciseRecord[]>([])
+  const [records, setRecords] = React.useState<ExerciseRecord[]>([])
+  const [sessions, setSessions] = React.useState<Session[]>([])
+  const uniqueExercisesNames = Array.from(
+    new Set(sessions.flatMap(session => session.exercises.map(ex => ex.exercise)))
+  );
+  const removeSessionFromState = (sessionId: number) => {
+    setSessions(prevSessions => prevSessions.filter(s => s.id !== sessionId));
+  };
+
   React.useEffect(() => {
     fetch("http://localhost:8080/exercises/records", {
       method: "GET"
@@ -25,7 +34,6 @@ export function App() {
     })
   }, [])
 
-  const [sessions, setSessions] = React.useState<Session[]>([])
   React.useEffect(() => {
     fetch("http://localhost:8080/exercises/sessions", {
       method: "GET"
@@ -40,10 +48,6 @@ export function App() {
       }
     })
   }, [])
-
-  const removeSessionFromState = (sessionId: number) => {
-    setSessions(prevSessions => prevSessions.filter(s => s.id !== sessionId));
-  };
 
   const handleDeleteSubmit = async (sessionId: number, exerciseId: number) => {
     try {
@@ -151,23 +155,12 @@ export function App() {
 
   return (
     <div className="main-component">
-      <div>
-        <Container>
-          {
-            <div>
-              <h2>new workout</h2>
-              <SessionContentBox onSubmit={handleCreateSessionSubmit}/>
-              {/*<CreateContentBox onSubmit={handleCreateSubmit}/>*/}
-            </div>
-          }
-        </Container>
-      </div>
 
-      <div>
+      <div className="read">
         <Container>
           {
             <div>
-              <h2>Read</h2>
+              <div className="headline">Workouts</div>
               {
                 sessions.map(session => <SessionReadContentBox
                   key={`${session.id}`}
@@ -179,49 +172,66 @@ export function App() {
         </Container>
       </div>
 
-      <div>
+      <div  className="create">
         <Container>
           {
             <div>
-              <h2>Update</h2>
-              {/*{*/}
-              {/*  records.map(record => <UpdateContentBox*/}
-              {/*    key={`${record.id}-${record.exercise}-${record.weight}-${record.repeats}-${record.sets}`}*/}
-              {/*    onSubmit={handleUpdateSubmit}*/}
-              {/*    content={record}*/}
-              {/*  />)*/}
-              {/*}*/}
-              {
-                sessions.map(session => <SessionUpdateContentBox
-                  key={`${session.id}`}
-                  onSubmit={handleUpdateSessionSubmit}
-                  content={session}
-                />)
-              }
+              <div  className="headline">new workout</div>
+              <SessionContentBox onSubmit={handleCreateSessionSubmit}/>
+            </div>
+          }
+        </Container>
+      </div>
+
+
+      <div  className="update">
+        <Container>
+          {
+            <div>
+              <details>
+                <summary className="more headline">Update</summary>
+                {
+                  sessions.map(session => <SessionUpdateContentBox
+                    key={`${session.id}`}
+                    onSubmit={handleUpdateSessionSubmit}
+                    content={session}
+                  />)
+                }
+              </details>
 
             </div>
           }
         </Container>
       </div>
 
-      <div>
+      <div className="delete">
         <Container>
           {
+            <div >
+              <details>
+                <summary className="more headline">Delete</summary>
+                {
+                  sessions.map(session => <SessionDeleteContentBox
+                    key={`${session.id}`}
+                    onDeleteSession={handleSessionDeleteSubmit}
+                    onDeleteExercise={handleDeleteSubmit}
+                    content={session}
+                  />)
+                }
+              </details>
+            </div>
+          }
+        </Container>
+      </div>
+
+      <div className="plots headline">
+        <Container>
+          <div className="headline">Charts</div>
+          {
             <div>
-              <h2>Delete</h2>
-              {
-                // records.map(record => <DeleteContentBox
-                //   key={`${record.id}-${record.exercise}-${record.weight}-${record.repeats}-${record.sets}`}
-                //   onSubmit={handleDeleteSubmit}
-                //   content={record}
-                // />)
-                sessions.map(session => <SessionDeleteContentBox
-                  key={`${session.id}`}
-                  onDeleteSession={handleSessionDeleteSubmit}
-                  onDeleteExercise={handleDeleteSubmit}
-                  content={session}
-                />)
-              }
+              {uniqueExercisesNames.map(name => (
+                <Plots key={name} sessions={sessions} exerciseName={name}/>
+              ))}
             </div>
           }
         </Container>
