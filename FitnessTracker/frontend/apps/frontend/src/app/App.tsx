@@ -3,7 +3,7 @@ import './App.css';
 import Container from '../components/container/Container';
 import {ExerciseRecord} from "../entities/ExerciseRecord";
 import {Session} from "../entities/Session"
-import SessionContentBox from "../components/contentBox/SessionContentBox";
+import SessionCreateContentBox from "../components/contentBox/SessionCreateContentBox";
 import SessionReadContentBox from "../components/contentBox/SessionReadContentBox";
 import SessionDeleteContentBox from "../components/contentBox/SessionDeleteContentBox";
 import SessionUpdateContentBox from "../components/contentBox/SessionUpdateContentBox";
@@ -164,7 +164,9 @@ export function App() {
               {
                 sessions.map(session => <SessionReadContentBox
                   key={`${session.id}`}
+                  onDeleteExercise={handleDeleteSubmit}
                   content={session}
+                  onSubmit={handleUpdateSessionSubmit}
                 />)
               }
             </div>
@@ -177,14 +179,14 @@ export function App() {
           {
             <div>
               <div  className="headline">new workout</div>
-              <SessionContentBox onSubmit={handleCreateSessionSubmit}/>
+              <SessionCreateContentBox onSubmit={handleCreateSessionSubmit}/>
             </div>
           }
         </Container>
       </div>
 
 
-      <div  className="update">
+      {/*<div  className="update">
         <Container>
           {
             <div>
@@ -222,7 +224,7 @@ export function App() {
             </div>
           }
         </Container>
-      </div>
+      </div>*/}
 
       <div className="plots headline">
         <Container>

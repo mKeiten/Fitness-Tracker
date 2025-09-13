@@ -6,7 +6,7 @@ interface SessionContentBoxProps {
   onSubmit: (session: Session) => void;
 }
 
-const SessionContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) => {
+const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) => {
   const [date, setDate] = React.useState<Date>(new Date());
   const [exercises, setExercises] = React.useState<Omit<ExerciseRecord, "id" | "sessionId">[]>([]);
 
@@ -139,4 +139,4 @@ const SessionContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) => {
   );
 };
 
-export default SessionContentBox;
+export default SessionCreateContentBox;
