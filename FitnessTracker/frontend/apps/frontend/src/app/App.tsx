@@ -159,16 +159,19 @@ export function App() {
       <div className="read">
         <Container>
           {
-            <div>
+            <div >
               <div className="headline">Workouts</div>
+              <div className="sessionsContainer">
               {
                 sessions.map(session => <SessionReadContentBox
                   key={`${session.id}`}
+                  onDeleteSession={handleSessionDeleteSubmit}
                   onDeleteExercise={handleDeleteSubmit}
                   content={session}
                   onSubmit={handleUpdateSessionSubmit}
                 />)
               }
+              </div>
             </div>
           }
         </Container>
@@ -186,7 +189,7 @@ export function App() {
       </div>
 
 
-      {/*<div  className="update">
+     {/* <div  className="update">
         <Container>
           {
             <div>

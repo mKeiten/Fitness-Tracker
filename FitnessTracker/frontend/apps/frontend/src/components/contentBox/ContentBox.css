@@ -3,42 +3,54 @@
   margin: 10px 5px;
   padding: 5px;
   border-radius: 15px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.contentRow > input {
-  width: 175px;
-  padding: 8px;
-  border: 1px solid #ccc;
+.workoutBox {
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  margin: 10px 5px;
+  padding: 10px;
   border-radius: 15px;
+  align-items: center;
+  width: 17.5%;
 }
 
 .contentRow {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 15px;
-  margin-top: 10px;
+  align-items: center;
+  gap: 15px;
+  margin: 5px 0;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 .contentRow > label {
-  display: flex;
-  align-self: center;
+  flex: 1 1 auto;
   font-family: "Roboto", "Arial", sans-serif;
   font-weight: 700;
 }
 
-.inputFields {
-  margin-bottom: 35px;
+.contentRow > input {
+  flex: 1 1 auto;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .exerciseRecords {
   margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .buttons {
-  margin-top: 30px;
+  margin-top: 35px;
   display: flex;
   justify-content: space-around;
 }
@@ -64,7 +76,7 @@
 }
 
 .addButton:hover {
-  background-color: rgba(3, 255, 3, 0.19);
+  background-color: rgba(3, 255, 3, 0.35);
 }
 
 .deleteButton:hover {
@@ -77,8 +89,26 @@
 }
 
 #subHeadline {
-  margin-top: 40px;
+  margin-top: 60px;
   align-self: center;
   font-family: "Roboto", "Arial", sans-serif;
 }
 
+.exerciseContainer {
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  border-radius: 15px;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 5px 10px;
+}
+
+.attributeContainer {
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  border-radius: 15px;
+  padding: 8px;
+  background-color: rgba(3, 255, 3, 0.35);
+  margin:0 5px;
+}

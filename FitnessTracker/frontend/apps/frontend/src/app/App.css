@@ -2,7 +2,7 @@
   overflow: scroll;
   display: grid;
   width: 100%;
-  grid-template-columns: 80% 20%;
+  grid-template-columns: auto 25%;
   grid-template-rows: auto 90%;
   grid-template-areas:
   "main aside"
@@ -14,16 +14,9 @@
 }
 
 .create {
+  min-width: 240px;
   grid-area: aside;
 }
-
-/*.update {
-  grid-area: assist;
-}
-
-.delete {
-  grid-area: assist2;
-}*/
 
 .plots {
   grid-area: graph;
@@ -31,6 +24,13 @@
 
 .more {
   padding-top: 20px;
+}
+
+.sessionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
 }
 
 ::marker {

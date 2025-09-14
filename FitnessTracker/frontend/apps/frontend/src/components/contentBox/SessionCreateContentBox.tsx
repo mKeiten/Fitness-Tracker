@@ -9,13 +9,23 @@ interface SessionContentBoxProps {
 const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) => {
   const [date, setDate] = React.useState<Date>(new Date());
   const [exercises, setExercises] = React.useState<Omit<ExerciseRecord, "id" | "sessionId">[]>([]);
-
+  const [isCreating, setIsCreating] = React.useState(false);
 
   const handleExercise = () => {
     setExercises(prev => [
       ...prev,
       {exercise: "", weight: 0, repeats: 0, sets: 0}
     ]);
+    setIsCreating(true);
+  };
+
+  const handleRemoveExercise = () => {
+    console.log (exercises.length)
+    setExercises(prev => prev.slice(0, -1));
+    console.log (exercises.length)
+    if(exercises.length === 1) {
+      setIsCreating(false);
+    }
   };
 
   const handleChange = (index: number, field: keyof Omit<ExerciseRecord, "id" | "sessionId">, value: string | number) => {
@@ -44,6 +54,7 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
     onSubmit(newSession);
     setExercises([]);
     setDate(new Date());
+    setIsCreating(false);
   };
 
   return (
@@ -55,16 +66,13 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
           <input
             id="date"
             type="date"
-            max={new Date().toISOString().substring(0,10)}
+            max={new Date().toISOString().substring(0, 10)}
             value={date ? date.toISOString().substring(0, 10) : ""}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setDate(new Date(e.target.value))
             }
             required
           />
-          <button onClick={handleExercise} id="add" className="addButton">
-            Add Exercise
-          </button>
         </div>
 
         <div className="inputFields">
@@ -126,17 +134,29 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
               </div>
             </div>
           ))}
-        </div>
 
+        </div>
         <div className="buttons">
-
-          <button type="submit" id="create" className="addButton">
-            Save Session
+          <button onClick={handleExercise} id="add" className="addButton">
+            Add Exercise
           </button>
+          {isCreating ? (
+            <button type="button" onClick={handleRemoveExercise} id="remove" className="addButton">
+              Remove Exercise
+            </button>
+          ) : null}
         </div>
-      </form>
-    </div>
-  );
-};
+        {isCreating ? (
+          <div className="buttons">
+              <button type="submit" id="create" className="addButton">
+                Save Session
+              </button>
+            </div>
 
-export default SessionCreateContentBox;
+            ) : null}
+          </form>
+          </div>
+          );
+        };
+
+        export default SessionCreateContentBox;
