@@ -160,7 +160,7 @@ export function App() {
         <Container>
           {
             <div >
-              <div className="headline">Workouts</div>
+              <div className="headline">Training History</div>
               <div className="sessionsContainer">
               {
                 sessions.map(session => <SessionReadContentBox
@@ -181,7 +181,7 @@ export function App() {
         <Container>
           {
             <div>
-              <div  className="headline">new workout</div>
+              <div  className="headline">New Workout Session</div>
               <SessionCreateContentBox onSubmit={handleCreateSessionSubmit}/>
             </div>
           }

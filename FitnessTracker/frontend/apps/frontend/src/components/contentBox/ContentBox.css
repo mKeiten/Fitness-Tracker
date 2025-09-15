@@ -1,7 +1,7 @@
 .contentBox {
+  flex: 1 1 auto;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
   margin: 10px 5px;
-  padding: 5px;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -9,12 +9,18 @@
 }
 
 .workoutBox {
+  flex: 1 1 auto;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
   margin: 10px 5px;
-  padding: 10px;
   border-radius: 15px;
   align-items: center;
-  width: 17.5%;
+  width: 100%;
+
+}
+
+#trainingBox {
+  order: 2;
+  background-color: black;
 }
 
 .contentRow {
@@ -111,4 +117,10 @@
   padding: 8px;
   background-color: rgba(3, 255, 3, 0.35);
   margin:0 5px;
+}
+
+.iconContainer {
+  margin-top: 35px;
+  display: flex;
+  justify-content: end;
 }

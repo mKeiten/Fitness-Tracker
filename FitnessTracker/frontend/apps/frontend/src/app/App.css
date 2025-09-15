@@ -1,36 +1,45 @@
-.main-component {
-  overflow: scroll;
-  display: grid;
-  width: 100%;
-  grid-template-columns: auto 25%;
-  grid-template-rows: auto 90%;
-  grid-template-areas:
+@media (min-width: 981px) {
+  .main-component {
+    overflow: scroll;
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto 25%;
+    grid-template-rows: auto 90%;
+    grid-template-areas:
   "main aside"
   "graph aside";
+  }
 }
 
-.read {
-  grid-area: main;
-}
-
-.create {
-  min-width: 240px;
-  grid-area: aside;
-}
-
-.plots {
-  grid-area: graph;
-}
-
-.more {
-  padding-top: 20px;
+@media (max-width: 980px) {
+  .main-component {
+    display: flex;
+    overflow: scroll;
+    width: 100%;
+    flex-direction: column;
+  }
 }
 
 .sessionsContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
   justify-content: flex-start;
+}
+
+.read {
+  grid-area: main;
+  order: 1;
+}
+
+.create {
+  grid-area: aside;
+  order: 0;
+
+}
+
+.plots {
+  grid-area: graph;
+  order: 2;
 }
 
 ::marker {
@@ -46,49 +55,3 @@ summary {
    text-align: center;
  }
 
-
-
-details[open] div {
-  animation: animateDown 0.25s linear forwards;
-}
-
-@keyframes animateDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-15px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.exercise-details[open] > details {
-  animation: animateLeft 0.25s linear forwards;
-}
-
-@keyframes animateLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(50px);
-  }
-}
-
-.plot-details[open] .plot {
-  animation: animateUp 0.5s linear forwards;
-}
-
-@keyframes animateUp {
-  0% {
-    opacity: 0;
-    transform: translateX(-50px) translateY(80px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(-50px) translateY(0);
-  }
-}

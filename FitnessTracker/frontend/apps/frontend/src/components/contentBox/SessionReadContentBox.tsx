@@ -4,6 +4,7 @@ import './ContentBox.css'
 import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -30,7 +31,9 @@ const ReadContentBox: React.FC<ContentBoxProps> = ({onDeleteSession, onDeleteExe
   };
 
   const handleSessionDelete = () => {
-    onDeleteSession(session.id);
+    if(confirm('Are you sure you want to delete this workout session?')) {
+      onDeleteSession(session.id);
+    }
   };
 
 
@@ -52,18 +55,14 @@ const ReadContentBox: React.FC<ContentBoxProps> = ({onDeleteSession, onDeleteExe
             <>
               <div>
                 <strong>Date:</strong> {sessionDate.toLocaleDateString()}
-                <IconButton aria-label="edit" onClick={() => setIsEditing(true)}>
-                  <EditIcon/>
-                </IconButton>
-                <IconButton aria-label="delete" onClick={() => handleSessionDelete()}>
-                  <DeleteIcon/>
-                </IconButton>
+
               </div>
             </>
           )}
         </AccordionSummary>
         <AccordionDetails>
           <div className="exerciseRecordsContainer">
+
             {content.exercises.map((record) => (
               <div key={record.id} className="exerciseRecords">
                 <p><strong>{record.exercise}</strong></p>
@@ -78,6 +77,14 @@ const ReadContentBox: React.FC<ContentBoxProps> = ({onDeleteSession, onDeleteExe
                 </div>
               </div>
             ))}
+            <div className="iconContainer">
+              <IconButton aria-label="edit" onClick={() => setIsEditing(true)}>
+                <EditIcon/>
+              </IconButton>
+              <IconButton aria-label="delete_forever" onClick={() => handleSessionDelete()}>
+                <DeleteForeverIcon/>
+              </IconButton>
+            </div>
           </div>
         </AccordionDetails>
       </Accordion>
