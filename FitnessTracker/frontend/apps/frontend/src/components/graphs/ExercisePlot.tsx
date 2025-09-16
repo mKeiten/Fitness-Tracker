@@ -2,9 +2,6 @@ import React from "react";
 import {Session} from "../../entities/Session"
 import "./ExercisePlot.css"
 import {
-  Area,
-  AreaChart,
-  Brush,
   CartesianGrid,
   Line,
   LineChart,
@@ -13,6 +10,10 @@ import {
   XAxis,
   YAxis
 } from "recharts";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface PlotProps {
   sessions: Session[];
@@ -45,48 +46,70 @@ const Plots: React.FC<PlotProps> = ({sessions, exerciseName}) => {
 
   return(
     <div className="chartContainer">
-      <details className="exercise-details">
-        <summary><strong>{exerciseName}</strong></summary>
-        <details className="plot-details">
-          <summary className="weight-headline">Weight in Kg</summary>
-          <div className="plot">
-            <ResponsiveContainer width="100%" height={200}>
-              <LineChart
-                width={800}
-                height={200}
-                syncId={exerciseName}
-                data={data}
-              >
-                <CartesianGrid strokeDasharray="3 3"/>
-                <XAxis dataKey="date"/>
-                <YAxis/>
-                <Tooltip/>
-                <Line type="monotone" dataKey="weight" stroke="#8884d8" fill="#8884d8" connectNulls/>
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </details>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon/>}
+          aria-controls="panel1-content"
+          id="panel1-header"
+          >
+        <strong>{exerciseName}</strong>
+      </AccordionSummary>
+        <Accordion className="plot-details">
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon/>}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            Weight in Kg
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className="plot">
+              <ResponsiveContainer width="100%" height={200}>
+                <LineChart
+                  width={800}
+                  height={200}
+                  syncId={exerciseName}
+                  data={data}
+                >
+                  <CartesianGrid strokeDasharray="3 3"/>
+                  <XAxis dataKey="date"/>
+                  <YAxis/>
+                  <Tooltip/>
+                  <Line type="monotone" dataKey="weight" stroke="#8884d8" fill="#8884d8" connectNulls/>
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </AccordionDetails>
+        </Accordion>
 
-        <details className="plot-details">
-          <summary className="repeats-headline">Repeats</summary>
-          <div className="plot" >
-            <ResponsiveContainer width="100%" height={200} >
-              <LineChart
-                width={800}
-                height={200}
-                syncId={exerciseName}
-                data={data}
-              >
-                <CartesianGrid strokeDasharray="3 3"/>
-                <XAxis dataKey="date"/>
-                <YAxis/>
-                <Tooltip/>
-                <Line type="monotone" dataKey="repeats" stroke="#52BF4B" fill="#52BF4B" connectNulls/>
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </details>
-      </details>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon/>}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            Repeats
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className="plot" >
+              <ResponsiveContainer width="100%" height={200} >
+                <LineChart
+                  width={800}
+                  height={200}
+                  syncId={exerciseName}
+                  data={data}
+                >
+                  <CartesianGrid strokeDasharray="3 3"/>
+                  <XAxis dataKey="date"/>
+                  <YAxis/>
+                  <Tooltip/>
+                  <Line type="monotone" dataKey="repeats" stroke="#52BF4B" fill="#52BF4B" connectNulls/>
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </AccordionDetails>
+        </Accordion>
+      </Accordion>
     </div>
   )
 }
