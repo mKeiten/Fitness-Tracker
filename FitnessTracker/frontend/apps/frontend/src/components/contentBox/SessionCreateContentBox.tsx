@@ -14,7 +14,7 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
   const handleExercise = () => {
     setExercises(prev => [
       ...prev,
-      {exercise: "", weight: 0, repeats: 0, sets: 0}
+      {exercise: "", weight: 0, repeats: 0, duration: 0, sets: 0}
     ]);
     setIsCreating(true);
   };
@@ -46,7 +46,9 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
         exercise: ex.exercise,
         weight: ex.weight,
         repeats: ex.repeats,
+        duration: ex.duration,
         sets: ex.sets,
+        type: ex.type,
         sessionId: 0
       })),
     };
@@ -98,8 +100,10 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
                 <input
                   id={`weight-${i}`}
                   type="number"
+                  step="0.1"
+                  min="0"
                   onChange={e =>
-                    handleChange(i, "weight", parseInt(e.target.value))
+                    handleChange(i, "weight", parseFloat(e.target.value))
                   }
                   placeholder="Weight in Kg"
                   required
@@ -107,23 +111,57 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
               </div>
 
               <div className="contentRow">
-                <label htmlFor={`repeats-${i}`}>Repeats:</label>
+                <label htmlFor={`exerciseType-${i}`}>Exercise Type: </label>
+                <select
+                  id={`exerciseType-${i}`}
+                  onChange={e => handleChange(i, "type", e.target.value)}
+                  value={exercises[i]?.type || ""}
+                  required
+                  >
+                    <option value="">Select Type</option>
+                    <option value="repeats">Repeats</option>
+                    <option value="duration">Duration</option>
+                </select>
+              </div>
+
+              {exercises[i]?.type === "repeats" && (
+                <div className="contentRow">
+                  <label htmlFor={`repeats-${i}`}>Repeats:</label>
+                  <input
+                    id={`repeats-${i}`}
+                    type="number"
+                    min="0"
+                    onChange={e =>
+                      handleChange(i, "repeats", parseInt(e.target.value))
+                    }
+                    placeholder="Number of Repeats"
+                    required
+                  />
+                </div>
+              )}
+
+              {exercises[i]?.type === "duration" && (
+              <div className="contentRow">
+                <label htmlFor={`duration-${i}`}>Duration:</label>
                 <input
-                  id={`repeats-${i}`}
+                  id={`duration-${i}`}
                   type="number"
+                  min="1"
                   onChange={e =>
-                    handleChange(i, "repeats", parseInt(e.target.value))
+                    handleChange(i, "duration", parseInt(e.target.value))
                   }
-                  placeholder="Number of Repeats"
+                  placeholder="Duration in seconds"
                   required
                 />
               </div>
+              )}
 
               <div className="contentRow">
                 <label htmlFor={`sets-${i}`}>Sets:</label>
                 <input
                   id={`sets-${i}`}
                   type="number"
+                  min="1"
                   onChange={e => {
                     const value = e.target.value;
                     handleChange(i, "sets", value === "" ? "" : Number(value));
@@ -141,7 +179,7 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
             Add Exercise
           </button>
           {isCreating ? (
-            <button type="button" onClick={handleRemoveExercise} id="remove" className="addButton">
+            <button type="button" onClick={handleRemoveExercise} id="remove" className="deleteButton">
               Remove Exercise
             </button>
           ) : null}

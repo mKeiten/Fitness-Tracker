@@ -1,10 +1,15 @@
 package com.fitnesstracker.backend.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -13,24 +18,30 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-public class ExerciseRecord {
+public class Goal {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column
     private String exercise;
+
     @Column
-    private Double weight;
+    private Double targetWeight;
+
     @Column
-    private Integer repeats;
+    private Integer targetRepeats;
+
     @Column
-    private Integer duration;
+    private Integer targetDuration;
+
     @Column
-    private Integer sets;
+    private Integer targetSets;
+
     @Column
-    private String type;
-    @ManyToOne
-    @JoinColumn
-    private Session session;
+    private Date deadline;
+
+    @Column
+    private Boolean achieved = false;
+
 }

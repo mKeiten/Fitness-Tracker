@@ -5,16 +5,16 @@ import {ExerciseRecord} from "../entities/ExerciseRecord";
 import {Session} from "../entities/Session"
 import SessionCreateContentBox from "../components/contentBox/SessionCreateContentBox";
 import SessionReadContentBox from "../components/contentBox/SessionReadContentBox";
-import SessionDeleteContentBox from "../components/contentBox/SessionDeleteContentBox";
-import SessionUpdateContentBox from "../components/contentBox/SessionUpdateContentBox";
 import Plots from "../components/graphs/ExercisePlot";
 
 export function App() {
   const [records, setRecords] = React.useState<ExerciseRecord[]>([])
   const [sessions, setSessions] = React.useState<Session[]>([])
+
   const uniqueExercisesNames = Array.from(
     new Set(sessions.flatMap(session => session.exercises.map(ex => ex.exercise)))
   );
+
   const removeSessionFromState = (sessionId: number) => {
     setSessions(prevSessions => prevSessions.filter(s => s.id !== sessionId));
   };
@@ -96,7 +96,9 @@ export function App() {
           exercise: ex.exercise,
           weight: ex.weight,
           repeats: ex.repeats,
+          duration: ex.duration,
           sets: ex.sets,
+          type: ex.type,
           sessionId: ex.sessionId
         }))
       })
@@ -124,7 +126,9 @@ export function App() {
           exercise: ex.exercise,
           weight: ex.weight,
           repeats: ex.repeats,
+          duration: ex.duration,
           sets: ex.sets,
+          type: ex.type,
           sessionId: ex.sessionId
         }))
       })
@@ -188,55 +192,14 @@ export function App() {
         </Container>
       </div>
 
-
-     {/* <div  className="update">
-        <Container>
-          {
-            <div>
-              <details>
-                <summary className="more headline">Update</summary>
-                {
-                  sessions.map(session => <SessionUpdateContentBox
-                    key={`${session.id}`}
-                    onSubmit={handleUpdateSessionSubmit}
-                    content={session}
-                  />)
-                }
-              </details>
-
-            </div>
-          }
-        </Container>
-      </div>
-
-      <div className="delete">
-        <Container>
-          {
-            <div >
-              <details>
-                <summary className="more headline">Delete</summary>
-                {
-                  sessions.map(session => <SessionDeleteContentBox
-                    key={`${session.id}`}
-                    onDeleteSession={handleSessionDeleteSubmit}
-                    onDeleteExercise={handleDeleteSubmit}
-                    content={session}
-                  />)
-                }
-              </details>
-            </div>
-          }
-        </Container>
-      </div>*/}
-
       <div className="plots headline">
         <Container>
           <div className="headline">Charts</div>
           {
+
             <div>
-              {uniqueExercisesNames.map(name => (
-                <Plots key={name} sessions={sessions} exerciseName={name}/>
-              ))}
+            {uniqueExercisesNames.map(name => (
+              <Plots key={name} sessions={sessions} exerciseName={name}/> ))}
             </div>
           }
         </Container>

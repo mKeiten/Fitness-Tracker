@@ -5,17 +5,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ExerciseRecordDto {
+public class GoalDto {
     private Long id;
     private String exercise;
-    private Double weight;
-    private Integer repeats;
+    private Double targetWeight;
+    private Integer targetRepeats;
     private Integer duration;
-    private Integer sets;
-    private String type;
-    private Long sessionId;
+    private Integer targetSets;
+    private Date deadline;
+    private Boolean achieved;
 }

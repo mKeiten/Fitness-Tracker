@@ -3,6 +3,8 @@ export interface ExerciseRecord {
   exercise: string;
   weight?: number;
   repeats?: number;
+  duration?: number;
   sets?: number;
+  type?: string;
   sessionId: number;
 }

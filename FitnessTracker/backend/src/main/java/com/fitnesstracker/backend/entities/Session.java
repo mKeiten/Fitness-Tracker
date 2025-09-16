@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -24,5 +24,5 @@ public class Session {
     @Column
     private Date date;
     @OneToMany(mappedBy ="session", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ExerciseRecord> exercises;
+    private List<ExerciseRecord> exercises;
 }

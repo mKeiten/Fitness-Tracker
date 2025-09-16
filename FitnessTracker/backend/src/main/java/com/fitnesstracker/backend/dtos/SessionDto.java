@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,5 +15,5 @@ import java.util.Set;
 public class SessionDto {
     private Long id;
     private Date date;
-    private Set<ExerciseRecordDto> exercises;
+    private List<ExerciseRecordDto> exercises;
 }

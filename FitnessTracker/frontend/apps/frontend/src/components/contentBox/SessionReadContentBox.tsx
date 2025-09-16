@@ -40,27 +40,24 @@ const ReadContentBox: React.FC<ContentBoxProps> = ({onDeleteSession, onDeleteExe
   const sessionDate = new Date(content.date)
   return (
     <div className="workoutBox">
+
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon/>}
           aria-controls="panel1-content"
           id="panel1-header"
         >
+          <div>
+            <strong>Date:</strong> {sessionDate.toLocaleDateString()}
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>
           {isEditing ? (
             <SessionUpdateContentBox onSubmit={(updatedSession) => {
               onSubmit(updatedSession);
               setIsEditing(false);
             }} content={content}/>
           ) : (
-            <>
-              <div>
-                <strong>Date:</strong> {sessionDate.toLocaleDateString()}
-
-              </div>
-            </>
-          )}
-        </AccordionSummary>
-        <AccordionDetails>
           <div className="exerciseRecordsContainer">
 
             {content.exercises.map((record) => (
@@ -68,7 +65,12 @@ const ReadContentBox: React.FC<ContentBoxProps> = ({onDeleteSession, onDeleteExe
                 <p><strong>{record.exercise}</strong></p>
                 <div className="exerciseContainer">
                   <span className="attributeContainer">{record.weight} kg</span>
-                  <span className="attributeContainer">{record.repeats} reps</span>
+                  {record.type === "repeats" && (
+                    <span className="attributeContainer">{record.repeats} reps</span>
+                  )}
+                  {record.type === "duration" && (
+                    <span className="attributeContainer">{record.duration} s</span>
+                  )}
                   <span className="attributeContainer">{record.sets} sets</span>
 
                   <IconButton aria-label="delete" onClick={() => handleExerciseDelete(record)}>
@@ -86,6 +88,7 @@ const ReadContentBox: React.FC<ContentBoxProps> = ({onDeleteSession, onDeleteExe
               </IconButton>
             </div>
           </div>
+          )}
         </AccordionDetails>
       </Accordion>
 
