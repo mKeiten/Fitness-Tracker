@@ -16,7 +16,7 @@ public class GoalDto {
     private String exercise;
     private Double targetWeight;
     private Integer targetRepeats;
-    private Integer duration;
+    private Integer targetDuration;
     private Integer targetSets;
     private Date deadline;
     private Boolean achieved;

@@ -6,10 +6,12 @@ import {Session} from "../entities/Session"
 import SessionCreateContentBox from "../components/contentBox/SessionCreateContentBox";
 import SessionReadContentBox from "../components/contentBox/SessionReadContentBox";
 import Plots from "../components/graphs/ExercisePlot";
+import {Goal} from "../entities/Goal";
 
 export function App() {
   const [records, setRecords] = React.useState<ExerciseRecord[]>([])
   const [sessions, setSessions] = React.useState<Session[]>([])
+  const [goals, setGoals] = React.useState<Goal[]>([])
 
   const uniqueExercisesNames = Array.from(
     new Set(sessions.flatMap(session => session.exercises.map(ex => ex.exercise)))
@@ -49,6 +51,21 @@ export function App() {
     })
   }, [])
 
+  React.useEffect(() => {
+    fetch("http://localhost:8080/exercises/goals", {
+      method: "GET"
+    }).then(response => {
+      if(response.status == 200) {
+        return response.json();
+      }
+      return null;
+    }).then(data => {
+      if(data !== null) {
+        setGoals(data);
+      }
+    })
+  }, [])
+
   const handleDeleteSubmit = async (sessionId: number, exerciseId: number) => {
     try {
       const response = await fetch(`http://localhost:8080/${sessionId}/exercises/records/${exerciseId}`, {
@@ -84,6 +101,21 @@ export function App() {
         setSessions(sessions.filter(session => session.id !== data.id));
       }
     });
+  }
+
+  const handleGoalDeleteSubmit = (id: number) => {
+    fetch(`http://localhost:8080/exercises/goals/${id}`, {
+      method: "DELETE"
+    }).then(response => {
+      if(response.status == 200) {
+        return response.json()
+      }
+      return null;
+    }).then(data => {
+      if(data !== null) {
+        setGoals(goals.filter(goal => goal.id !== data.id));
+      }
+    })
   }
 
   const handleUpdateSessionSubmit = (session: Session) => {
@@ -135,15 +167,15 @@ export function App() {
     })
       .then(postResponse => {
         if (postResponse.status !== 201) {
-          console.error("Fehler beim Anlegen der Session:", postResponse.status);
-          return Promise.reject("Post fehlgeschlagen");
+          console.error("An error occurred while creating a session: ", postResponse.status);
+          return Promise.reject("Post failed");
         }
         return fetch("http://localhost:8080/exercises/sessions");
       })
       .then(getResponse => {
         if (getResponse.status !== 200) {
-          console.error("Fehler beim Laden der Sessions:", getResponse.status);
-          return Promise.reject("Get fehlgeschlagen");
+          console.error("An error occurred while loading a session:", getResponse.status);
+          return Promise.reject("Get failed");
         }
         return getResponse.json();
       })
@@ -151,11 +183,19 @@ export function App() {
         setSessions(updatedSessions);
       })
       .catch(error => {
-        console.error("Fehler beim Speichern/Laden der Sessions:", error);
+        console.error("An error occurred while saving a session:", error);
       });
   };
 
+  const handleCreateGoal = (newGoal: Goal) => {
+    setGoals(prevGoals => [...prevGoals, newGoal]);
+  };
 
+  const handleUpdateGoal = (updatedGoal: Goal) => {
+    setGoals(prevGoals =>
+      prevGoals.map(goal => (goal.id === updatedGoal.id ? updatedGoal : goal))
+    );
+  };
 
   return (
     <div className="main-component">
@@ -173,6 +213,9 @@ export function App() {
                   onDeleteExercise={handleDeleteSubmit}
                   content={session}
                   onSubmit={handleUpdateSessionSubmit}
+                  onUpdateGoal={handleUpdateGoal}
+                  onCreateGoal={handleCreateGoal}
+                  goals={goals}
                 />)
               }
               </div>
@@ -186,7 +229,9 @@ export function App() {
           {
             <div>
               <div  className="headline">New Workout Session</div>
-              <SessionCreateContentBox onSubmit={handleCreateSessionSubmit}/>
+              <SessionCreateContentBox
+                onSubmit={handleCreateSessionSubmit}
+              />
             </div>
           }
         </Container>
@@ -199,7 +244,7 @@ export function App() {
 
             <div>
             {uniqueExercisesNames.map(name => (
-              <Plots key={name} sessions={sessions} exerciseName={name}/> ))}
+              <Plots key={name} sessions={sessions} exerciseName={name} goals={goals}/> ))}
             </div>
           }
         </Container>

@@ -31,7 +31,7 @@ public class SessionService {
 
     public SessionDto deleteSession(Long id) {
         Session session = sessionRepository.findById(id)
-                .orElseThrow(() -> new AppException("Exercise Record not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new AppException("Session not found", HttpStatus.NOT_FOUND));
         SessionDto sessionDto = sessionMapper.toSession(session);
         sessionRepository.deleteById(id);
 
@@ -41,7 +41,7 @@ public class SessionService {
     public SessionDto updateSession(Long id, SessionDto SessionDto) {
 
         Session session = sessionRepository.findById(id)
-                .orElseThrow(() -> new AppException("Exercise Record not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new AppException("Session not found", HttpStatus.NOT_FOUND));
         sessionMapper.updateSession(session, SessionDto);
         Session savedSession = sessionRepository.save(session);
 

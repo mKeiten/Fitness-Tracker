@@ -1,6 +1,8 @@
 import React from 'react'
 import {ExerciseRecord} from "../../entities/ExerciseRecord";
 import {Session} from "../../entities/Session"
+import ExerciseInput from "../Components/ExerciseInputComponent";
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 interface SessionContentBoxProps {
   onSubmit: (session: Session) => void;
@@ -10,6 +12,7 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
   const [date, setDate] = React.useState<Date>(new Date());
   const [exercises, setExercises] = React.useState<Omit<ExerciseRecord, "id" | "sessionId">[]>([]);
   const [isCreating, setIsCreating] = React.useState(false);
+
 
   const handleExercise = () => {
     setExercises(prev => [
@@ -85,13 +88,27 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
               <span className="headlineContainer"><h3 id="subHeadline">Exercise {i + 1}</h3></span>
 
               <div className="contentRow">
-                <label htmlFor={`exercise-${i}`}>Exercise:</label>
-                <input
-                  id={`exercise-${i}`}
-                  type="text"
-                  onChange={e => handleChange(i, "exercise", e.target.value)}
-                  placeholder="Exercise Name"
-                  required
+                <FormControl sx={{m: 1, minWidth: 223}} size="small">
+                  <InputLabel id="select-small-label" htmlFor={`exerciseType-${i}`}>Exercise Type </InputLabel>
+                  <Select
+                    labelId="select-small-label"
+                    id={`exerciseType-${i}`}
+                    onChange={e => handleChange(i, "type", e.target.value)}
+                    value={exercises[i]?.type || ""}
+                    label="Exercise Type"
+                    required
+                  >
+                    <MenuItem value="">Select Type</MenuItem>
+                    <MenuItem value="repeats">Repeats</MenuItem>
+                    <MenuItem value="duration">Duration</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+
+              <div className="contentRow">
+                {/*<InputLabel id="select_small_label" htmlFor={`exerciseType-${i}`}>Exercise: </InputLabel>*/}
+                <ExerciseInput
+                  onChange={(value) => handleChange(i, "exercise", value)}
                 />
               </div>
 
@@ -108,20 +125,6 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
                   placeholder="Weight in Kg"
                   required
                 />
-              </div>
-
-              <div className="contentRow">
-                <label htmlFor={`exerciseType-${i}`}>Exercise Type: </label>
-                <select
-                  id={`exerciseType-${i}`}
-                  onChange={e => handleChange(i, "type", e.target.value)}
-                  value={exercises[i]?.type || ""}
-                  required
-                  >
-                    <option value="">Select Type</option>
-                    <option value="repeats">Repeats</option>
-                    <option value="duration">Duration</option>
-                </select>
               </div>
 
               {exercises[i]?.type === "repeats" && (
@@ -141,19 +144,19 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
               )}
 
               {exercises[i]?.type === "duration" && (
-              <div className="contentRow">
-                <label htmlFor={`duration-${i}`}>Duration:</label>
-                <input
-                  id={`duration-${i}`}
-                  type="number"
-                  min="1"
-                  onChange={e =>
-                    handleChange(i, "duration", parseInt(e.target.value))
-                  }
-                  placeholder="Duration in seconds"
-                  required
-                />
-              </div>
+                <div className="contentRow">
+                  <label htmlFor={`duration-${i}`}>Duration:</label>
+                  <input
+                    id={`duration-${i}`}
+                    type="number"
+                    min="1"
+                    onChange={e =>
+                      handleChange(i, "duration", parseInt(e.target.value))
+                    }
+                    placeholder="Duration in seconds"
+                    required
+                  />
+                </div>
               )}
 
               <div className="contentRow">
@@ -186,15 +189,14 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
         </div>
         {isCreating ? (
           <div className="buttons">
-              <button type="submit" id="create" className="addButton">
-                Save Session
-              </button>
-            </div>
-
-            ) : null}
-          </form>
+            <button type="submit" id="create" className="addButton">
+              Save Session
+            </button>
           </div>
-          );
-        };
 
-        export default SessionCreateContentBox;
+        ) : null}
+      </form>
+    </div>
+  );
+};
+export default SessionCreateContentBox;

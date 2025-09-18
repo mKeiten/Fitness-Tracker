@@ -14,33 +14,43 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {Goal} from "../../entities/Goal";
 
 interface PlotProps {
   sessions: Session[];
   exerciseName: string;
+  goals: Goal[];
 }
 
-const Plots: React.FC<PlotProps> = ({sessions, exerciseName}) => {
+const Plots: React.FC<PlotProps> = ({sessions, exerciseName, goals}) => {
 
   const sortedSessions = [...sessions].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
-  const startDate = new Date(sortedSessions[0].date);
-  const endDate = new Date();
-  const allDates: string[] = [];
-  for(let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() +1)) {
-    allDates.push(new Date(d).toISOString().substring(0,10));
-  }
+  const allDatesSet = new Set<string>();
+
+  sortedSessions.forEach(s => {
+    allDatesSet.add(new Date(s.date).toISOString().substring(0,10));
+  });
+  const exerciseGoals = goals.filter(g => g.exercise === exerciseName);
+  exerciseGoals.forEach(g => {
+    allDatesSet.add(new Date(g.deadline).toISOString().substring(0,10));
+  });
+
+  const allDates = Array.from(allDatesSet).sort();
 
   const data = allDates.map(date => {
     const session = sortedSessions.find(
       s => new Date(s.date).toISOString().substring(0,10) === date
     );
     const exercise = session?.exercises.find(ex => ex.exercise === exerciseName);
+    const goalForThisDate = exerciseGoals.find(g => new Date(g.deadline).toISOString().substring(0,10) === date);
     return {
       date,
       weight: exercise ? exercise.weight : null,
-      repeats: exercise ? exercise.repeats : null
+      repeats: exercise ? exercise.repeats : null,
+      goalWeight: goalForThisDate ? goalForThisDate.targetWeight : null,
+      goalRepeats: goalForThisDate ? goalForThisDate.targetRepeats : null
     };
   });
 
@@ -76,6 +86,7 @@ const Plots: React.FC<PlotProps> = ({sessions, exerciseName}) => {
                   <YAxis/>
                   <Tooltip/>
                   <Line type="monotone" dataKey="weight" stroke="#8884d8" fill="#8884d8" connectNulls/>
+                  <Line type="monotone" dataKey="goalWeight" stroke="#DAA520" fill="#DAA520" connectNulls/>
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -104,6 +115,7 @@ const Plots: React.FC<PlotProps> = ({sessions, exerciseName}) => {
                   <YAxis/>
                   <Tooltip/>
                   <Line type="monotone" dataKey="repeats" stroke="#52BF4B" fill="#52BF4B" connectNulls/>
+                  <Line type="monotone" dataKey="goalRepeats" stroke="#DAA520" fill="#DAA520" connectNulls/>
                 </LineChart>
               </ResponsiveContainer>
             </div>
