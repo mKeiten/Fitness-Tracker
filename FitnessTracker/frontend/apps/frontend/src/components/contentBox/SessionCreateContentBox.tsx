@@ -1,18 +1,20 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {ExerciseRecord} from "../../entities/ExerciseRecord";
 import {Session} from "../../entities/Session"
 import ExerciseInput from "../Components/ExerciseInputComponent";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 interface SessionContentBoxProps {
   onSubmit: (session: Session) => void;
 }
 
 const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) => {
-  const [date, setDate] = React.useState<Date>(new Date());
   const [exercises, setExercises] = React.useState<Omit<ExerciseRecord, "id" | "sessionId">[]>([]);
   const [isCreating, setIsCreating] = React.useState(false);
-
+  const [date, setDate] = useState<Dayjs | null>(dayjs());
 
   const handleExercise = () => {
     setExercises(prev => [
@@ -41,9 +43,13 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if(!date) {
+      alert("Please choose a date!");
+      return;
+    }
     const newSession: Session = {
       id: 0,
-      date,
+      date: date.toDate(),
       exercises: exercises.map((ex) => ({
         id: 0,
         exercise: ex.exercise,
@@ -58,7 +64,7 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
 
     onSubmit(newSession);
     setExercises([]);
-    setDate(new Date());
+    setDate(dayjs());
     setIsCreating(false);
   };
 
@@ -67,17 +73,22 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
     <div className="contentBox">
       <form onSubmit={handleSubmit}>
         <div className="contentRow">
-          <label htmlFor="date">Date:</label>
-          <input
-            id="date"
-            type="date"
-            max={new Date().toISOString().substring(0, 10)}
-            value={date ? date.toISOString().substring(0, 10) : ""}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setDate(new Date(e.target.value))
-            }
-            required
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Date"
+              disableFuture
+              value={date}
+              onChange={(newValue: Dayjs | null) => setDate(newValue)}
+              slotProps={{
+                textField: {
+                  size: "small",
+                  required: true,
+                  fullWidth: true,
+                },
+              }}
+              sx={{ m: 1, width: 223 }}
+            />
+          </LocalizationProvider>
         </div>
 
         <div className="inputFields">
@@ -97,6 +108,7 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
                     value={exercises[i]?.type || ""}
                     label="Exercise Type"
                     required
+                    variant="standard"
                   >
                     <MenuItem value="">Select Type</MenuItem>
                     <MenuItem value="repeats">Repeats</MenuItem>
@@ -106,38 +118,46 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
               </div>
 
               <div className="contentRow">
-                {/*<InputLabel id="select_small_label" htmlFor={`exerciseType-${i}`}>Exercise: </InputLabel>*/}
                 <ExerciseInput
                   onChange={(value) => handleChange(i, "exercise", value)}
                 />
               </div>
 
               <div className="contentRow">
-                <label htmlFor={`weight-${i}`}>Weight:</label>
-                <input
+                <TextField
                   id={`weight-${i}`}
+                  label="Weight"
+                  size="small"
                   type="number"
-                  step="0.1"
-                  min="0"
                   onChange={e =>
                     handleChange(i, "weight", parseFloat(e.target.value))
                   }
-                  placeholder="Weight in Kg"
+                  slotProps={{
+                    input: {
+                      endAdornment: <InputAdornment position="end">kg</InputAdornment>,
+                    }
+                  }}
+                  sx={{ m: 1, width: 223 }}
                   required
                 />
               </div>
 
               {exercises[i]?.type === "repeats" && (
                 <div className="contentRow">
-                  <label htmlFor={`repeats-${i}`}>Repeats:</label>
-                  <input
+                  <TextField
                     id={`repeats-${i}`}
+                    label="Reps"
                     type="number"
-                    min="0"
+                    size="small"
                     onChange={e =>
                       handleChange(i, "repeats", parseInt(e.target.value))
                     }
-                    placeholder="Number of Repeats"
+                    slotProps={{
+                      input: {
+                        endAdornment: <InputAdornment position="end">reps</InputAdornment>,
+                      }
+                    }}
+                    sx={{ m: 1, width: 223 }}
                     required
                   />
                 </div>
@@ -145,31 +165,41 @@ const SessionCreateContentBox: React.FC<SessionContentBoxProps> = ({onSubmit}) =
 
               {exercises[i]?.type === "duration" && (
                 <div className="contentRow">
-                  <label htmlFor={`duration-${i}`}>Duration:</label>
-                  <input
+                  <TextField
                     id={`duration-${i}`}
+                    label="Duration"
                     type="number"
-                    min="1"
+                    size="small"
                     onChange={e =>
                       handleChange(i, "duration", parseInt(e.target.value))
                     }
-                    placeholder="Duration in seconds"
+                    slotProps={{
+                      input: {
+                        endAdornment: <InputAdornment position="end">s</InputAdornment>,
+                      }
+                    }}
+                    sx={{ m: 1, width: 223 }}
                     required
                   />
                 </div>
               )}
 
               <div className="contentRow">
-                <label htmlFor={`sets-${i}`}>Sets:</label>
-                <input
+                <TextField
                   id={`sets-${i}`}
+                  label="Sets"
                   type="number"
-                  min="1"
+                  size="small"
                   onChange={e => {
                     const value = e.target.value;
                     handleChange(i, "sets", value === "" ? "" : Number(value));
                   }}
-                  placeholder="Number of Sets"
+                  slotProps={{
+                    input: {
+                      endAdornment: <InputAdornment position="end">s</InputAdornment>,
+                    }
+                  }}
+                  sx={{ m: 1, width: 223 }}
                   required
                 />
               </div>

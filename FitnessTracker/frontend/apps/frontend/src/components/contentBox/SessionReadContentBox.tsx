@@ -123,13 +123,12 @@ const ReadContentBox: React.FC<ContentBoxProps> = ({onDeleteSession, onDeleteExe
 
   const isGoalAchieved = (exercise: ExerciseRecord, goal: Goal) => {
     if (!goal) {return false;}
-    else {
-    const weightAchieved = goal.targetWeight ? exercise.weight ?? 0 >= goal.targetWeight : true;
-    const repeatsAchieved = goal.targetRepeats ? exercise.repeats ?? 0 >= goal.targetRepeats : true;
-    const durationAchieved = goal.targetDuration ? exercise.duration ?? 0 >= goal.targetDuration : true;
-    const setsAchieved = goal.targetSets ? exercise.sets ?? 0 >= goal.targetSets : true;
-
-    return weightAchieved && repeatsAchieved && durationAchieved && setsAchieved;}
+    return (
+      (goal.targetWeight == null || (exercise.weight ?? 0) >= goal.targetWeight) &&
+      (goal.targetRepeats == null || (exercise.repeats ?? 0) >= goal.targetRepeats) &&
+      (goal.targetDuration == null || (exercise.duration ?? 0) >= goal.targetDuration) &&
+      (goal.targetSets == null || (exercise.sets ?? 0) >= goal.targetSets)
+    );
   };
 
   const handleSessionDelete = () => {
@@ -229,7 +228,6 @@ const ReadContentBox: React.FC<ContentBoxProps> = ({onDeleteSession, onDeleteExe
                               />
                               <TextField
                                 margin="dense"
-                                label="Deadline"
                                 type="date"
                                 name="deadline"
                                 fullWidth

@@ -11,6 +11,8 @@
     "@expo/metro-runtime": "~5.0.4",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
+    "@mui/x-date-pickers": "^8.11.3",
+    "dayjs": "^1.11.18",
     "expo": "~53.0.10",
     "expo-splash-screen": "~0.30.9",
     "expo-status-bar": "~2.2.3",

@@ -78,6 +78,8 @@ export default function ExerciseInput({onChange}: ExerciseInputProps) {
             value={exercise}
             onChange={handleChange}
             label="Exercise"
+            required
+            variant="standard"
           >
             <MenuItem value="">Chose an Exercise</MenuItem>
             {exerciseOptions.map(opt => (
